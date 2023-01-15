@@ -1,4 +1,5 @@
-{ "birds": [
+{
+  "birds": [
     "Avocet",
     "Bittern",
     "Bulbul",
@@ -40,6 +41,49 @@
     "Wren",
     "Yellowhammer"
   ],
-"played": [],
-"latest": ""
+  "played": [],
+  "latest": "",
+  "pool": [],
+  "drawn": [
+    "Flamingo",
+    "Linnet",
+    "Quail",
+    "Yellowhammer",
+    "Pigeon",
+    "Owl",
+    "Velvet scoter",
+    "Humming Bird",
+    "Lapwing",
+    "Stork",
+    "Eagle",
+    "Redstart",
+    "Pelican",
+    "Ostrich",
+    "Bulbul",
+    "Jackdaw",
+    "Peacock",
+    "Jay",
+    "Ibis",
+    "Guillemot",
+    "Parrot",
+    "Wagtail",
+    "Woodpecker",
+    "Crow",
+    "Bittern",
+    "Nightingale",
+    "Goose",
+    "Sparrow",
+    "Kingfisher",
+    "Hoopoe",
+    "Swan",
+    "Duck",
+    "Dove",
+    "Tern",
+    "Falcon",
+    "Mynah",
+    "Avocet",
+    "Crane",
+    "Wren",
+    "Nuthatch"
+  ]
 }

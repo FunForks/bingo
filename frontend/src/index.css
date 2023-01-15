@@ -16,7 +16,7 @@ body {
 }
 
 table {
-  --size: 19.5vmin;
+  --size: 18.5vmin;
   font-size: 2.8vmin;
   table-layout: fixed;
   border-collapse: collapse;

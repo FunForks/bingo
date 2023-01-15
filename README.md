@@ -21,3 +21,4 @@ cd ../frontend && npm install
 cd .. && npm start
 ```
 
+Visit http://localhost:3001 from several browser windows: each will play the game with a different card.

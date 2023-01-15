@@ -1,37 +1,62 @@
-import { useState, useEffect, useReducer } from 'react'
+import { useEffect, useReducer } from 'react'
 import { initialState, reducer } from './api/gameplay'
 
 import { Card } from './components/Card'
+import { Buttons } from './components/Buttons'
+import { polling } from './api/polling'
 
 
 const PORT = process.env.REACT_APP_BACKEND_PORT
 const backend = window.location.origin.replace(/:\d+$/,`:${PORT}`)
 const endPoints = {
-  card: `${backend}/data/card`
+  poll: `${backend}/data/poll`,
+  start: `${backend}/data/start`,
+  join: `${backend}/data/join`,
+  bingo: `${backend}/data/bingo`
 }
 
 const App = () => {
   const [ state, dispatch ] = useReducer(reducer, initialState)
 
-  const getCard = async() => {
-    const newCard = json => {
-      dispatch({
-        type: "NEW_CARD",
-        payload: json
-      })
-    }
-
-    const response = await fetch(endPoints.card)
-    response.json()
-            .then(newCard)
+  // Initialization
+  const pollingCallback = json => {
+    dispatch(json)
   }
 
-  useEffect(() => getCard(), [])
+  useEffect(() => polling(endPoints.poll, pollingCallback ), [])
+
+
+  // Talking to the backend
+  const startNewGame = async () => {
+    fetch(endPoints.start)
+  }
+
+
+  const joinGameInProgress = async () => {
+
+  }
+  
+  
+  const claimBingo = async () => {
+
+  }
+
 
   return (
-    <Card
-      card={state.card}
-    />
+    <>
+      <Card
+        card={state.card}
+      />
+      <Buttons 
+        startNewGame={startNewGame}
+        joinGameInProgress={joinGameInProgress}
+        claimBingo={claimBingo}
+        {...state}
+      />
+      <span>
+        {state.latest}
+      </span>
+    </>
   );
 }
 
