@@ -33,3 +33,7 @@ td {
   border: 1px solid#fff;
   box-sizing: border-box;
 }
+
+td.match {
+  background-color: #030;
+}

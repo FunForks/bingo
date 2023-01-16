@@ -41,6 +41,18 @@ function database(db) {
     res.send("OK") // so that the client is not left hanging
   });
 
+
+  /* GET the game to start for all connected players */
+  router.get('/bingo', async function(req, res, next) {
+
+    if (interval) {
+      clearInterval(interval)
+      interval = 0
+    }
+
+    res.send("OK") // so that the client is not left hanging
+  });
+
   return router
 
 

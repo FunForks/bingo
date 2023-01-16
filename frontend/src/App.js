@@ -38,14 +38,17 @@ const App = () => {
   
   
   const claimBingo = async () => {
-
+    if (state.winner) {
+      fetch(endPoints.bingo)
+    }
   }
+  useEffect(claimBingo, [state.winner])
 
 
   return (
     <>
       <Card
-        card={state.card}
+        {...state}
       />
       <Buttons 
         startNewGame={startNewGame}

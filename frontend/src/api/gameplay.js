@@ -3,7 +3,7 @@
  */
 
 
-export const initialState = {
+const initialState = {
   card: [],
   drawn: [],
   latest: "",
@@ -21,6 +21,9 @@ const createNewCard = ( state, action ) => {
 
 const newGame = ( state, action ) => {
   state.card = action.payload
+  state.unmatched = action.payload.map( row => (
+    row.map( item => !!item )
+  ))
   state.drawn = []
   state.latest = ""
   state.playing = true
@@ -29,10 +32,59 @@ const newGame = ( state, action ) => {
 }
 
 
+const addMatch = (card, unmatched, latest) => {
+  let cellIndex
+  const rowIndex  = card.findIndex( row => {
+    cellIndex = row.findIndex( item => item === latest)
+    return cellIndex >= 0
+  })
+
+  if (rowIndex >= 0) {
+    unmatched[rowIndex][cellIndex] = false
+  }
+
+  return [...unmatched]
+}
+
+
+const checkForBingo = (unmatched) => {
+  // Check if any row is all zeros
+  let winner = !unmatched.every( row => (
+    Math.max.apply(null, row)
+  ))
+
+  // Check if any column is all zeros
+  if (!winner) {
+    const columnSums = unmatched.reduce(( cumul, row ) => {
+      row.forEach(( cell, index ) => (cumul[index] += cell))
+      return cumul
+    }, [0, 0, 0, 0, 0])
+
+    winner = !Math.min.apply(null, columnSums)
+  }
+
+  if (!winner) {
+    const diagonalSums = unmatched.reduce(( cumul, row, index ) => {
+      cumul[0] += row[index]
+      cumul[1] += row[4 - index]
+      return cumul
+    }, [0, 0])
+
+    winner = !Math.min.apply(null, diagonalSums)
+  }
+
+
+  return winner
+}
+
+
 const cardDrawn = ( state, action ) => {
   state.latest = action.payload
   state.drawn.push(state.latest)
-  return { ...state }
+  const unmatched = addMatch(state.card, state.unmatched, state.latest)
+  const winner = checkForBingo(unmatched)
+
+  return { ...state, unmatched, winner }
 }
 
 
@@ -44,9 +96,9 @@ const gameOver = ( state, action ) => {
 
 
 
-export const reducer = ( state, action ) => {
+const reducer = ( state, action ) => {
   console.log("action:", action);
-  
+
   switch ( action.type) {
     case "NEW_CARD":
       return createNewCard(state, action)
@@ -63,4 +115,10 @@ export const reducer = ( state, action ) => {
     default:
       return { ...state }
   }
+}
+
+
+module.exports = {
+  initialState,
+  reducer
 }
