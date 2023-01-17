@@ -2,33 +2,59 @@
  * gameplay.js
  */
 
+const randomName = (() => {
+  const names = [
+    "Ada",
+    "Ruby",
+    "Lisa",
+    "Jade",
+    "Hal",
+    "Pascal",
+    "Jason"
+  ]
+  const randomIndex = Math.floor(Math.random() * names.length)
+
+  return names[randomIndex]
+})()
+
 
 const initialState = {
+  player: randomName,
   card: [],
+  unmatched: [],
   drawn: [],
   latest: "",
   playing: false,
-  inProgress: false
+  inProgress: false,
+  winner: ""
 }
 
 
-
-const createNewCard = ( state, action ) => {
-  state.card = action.payload
+const setPlayerName = ( state, action ) => {
+  state.player = action.payload
   return { ...state }
 }
 
 
 const newGame = ( state, action ) => {
-  state.card = action.payload
-  state.unmatched = action.payload.map( row => (
+  const player = state.player
+  const card = action.payload
+  const unmatched = card.map( row => (
     row.map( item => !!item )
   ))
-  state.drawn = []
-  state.latest = ""
-  state.playing = true
-  state.inProgress = true
-  return { ...state }
+  const drawn = []
+  const playing = true
+  const inProgress = true
+
+  return {
+    ...initialState,
+    player,
+    card,
+    unmatched,
+    drawn,
+    playing,
+    inProgress
+  }
 }
 
 
@@ -73,7 +99,6 @@ const checkForBingo = (unmatched) => {
     winner = !Math.min.apply(null, diagonalSums)
   }
 
-
   return winner
 }
 
@@ -91,6 +116,7 @@ const cardDrawn = ( state, action ) => {
 const gameOver = ( state, action ) => {
   state.playing = false
   state.inProgress = false
+  state.winner = action.payload
   return { ...state }
 }
 
@@ -100,8 +126,8 @@ const reducer = ( state, action ) => {
   console.log("action:", action);
 
   switch ( action.type) {
-    case "NEW_CARD":
-      return createNewCard(state, action)
+    case "SET_PLAYER_NAME":
+      return setPlayerName(state, action)
 
     case "GAME_STARTED":
       return newGame(state, action)

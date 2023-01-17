@@ -1,8 +1,10 @@
-import { useEffect, useReducer } from 'react'
+import { usesState, useEffect, useReducer } from 'react'
 import { initialState, reducer } from './api/gameplay'
 
+import { PlayerName } from './components/PlayerName'
 import { Card } from './components/Card'
 import { Buttons } from './components/Buttons'
+
 import { polling } from './api/polling'
 
 
@@ -15,20 +17,34 @@ const endPoints = {
   bingo: `${backend}/data/bingo`
 }
 
-const App = () => {
+const App = () => {  
   const [ state, dispatch ] = useReducer(reducer, initialState)
+
 
   // Initialization
   const pollingCallback = json => {
     dispatch(json)
   }
 
-  useEffect(() => polling(endPoints.poll, pollingCallback ), [])
+  useEffect(() => polling(endPoints.poll, pollingCallback), [])
+
+
+  const setPlayerName = (event) => {
+    const payload = event.target.value
+    dispatch({
+      type: "SET_PLAYER_NAME",
+      payload
+    })
+  }
 
 
   // Talking to the backend
   const startNewGame = async () => {
     fetch(endPoints.start)
+    // Response from backend will trigger pollingCallback with {
+    //   action: "GAME_STARTED"
+    //   card: <array of arrays>
+    // }
   }
 
 
@@ -38,8 +54,14 @@ const App = () => {
   
   
   const claimBingo = async () => {
+    const options = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ "player": state.player })
+    }
+
     if (state.winner) {
-      fetch(endPoints.bingo)
+      fetch(endPoints.bingo, options)
     }
   }
   useEffect(claimBingo, [state.winner])
@@ -47,6 +69,10 @@ const App = () => {
 
   return (
     <>
+      <PlayerName
+        player={state.player}
+        setPlayerName={setPlayerName}
+      />
       <Card
         {...state}
       />
@@ -57,7 +83,9 @@ const App = () => {
         {...state}
       />
       <span>
-        {state.latest}
+        {state.winner ? `Winner: ${state.winner}`
+                      : state.latest
+        }
       </span>
     </>
   );

@@ -10,14 +10,19 @@ export const Buttons = (props) => {
     claimBingo,
     // Flags for the current state of play
     playing,
-    inProgress
+    inProgress,
+    // String used as flag for enabling the button
+    player
   } = props
 
+  const disabled = !player
+
   const buttons = (() => {
-      if (!inProgress) {
+    if (!inProgress) {
       return (
         <button
           onClick={startNewGame}
+          disabled={disabled}
         >
           Start New Game
         </button>
@@ -27,6 +32,7 @@ export const Buttons = (props) => {
       return (
         <button
           onClick={claimBingo}
+          disabled={disabled}
         >
           Bingo!
         </button>
@@ -40,6 +46,7 @@ export const Buttons = (props) => {
           </span>
           <button
             onClick={joinGameInProgress}
+            disabled={disabled}
           >
             Join the Game
           </button>

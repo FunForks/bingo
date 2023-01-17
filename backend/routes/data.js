@@ -43,11 +43,14 @@ function database(db) {
 
 
   /* GET the game to start for all connected players */
-  router.get('/bingo', async function(req, res, next) {
+  router.post('/bingo', async function(req, res, next) {
+    const { player } = req.body
 
     if (interval) {
       clearInterval(interval)
       interval = 0
+
+      update("GAME_OVER", player)
     }
 
     res.send("OK") // so that the client is not left hanging
