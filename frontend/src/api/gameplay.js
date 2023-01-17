@@ -2,6 +2,8 @@
  * gameplay.js
  */
 
+
+
 const randomName = (() => {
   const names = [
     "Ada",
@@ -104,12 +106,40 @@ const checkForBingo = (unmatched) => {
 
 
 const cardDrawn = ( state, action ) => {
-  state.latest = action.payload
-  state.drawn.push(state.latest)
-  const unmatched = addMatch(state.card, state.unmatched, state.latest)
-  const winner = checkForBingo(unmatched)
+  const drawn = action.payload
+  state.latest = drawn
+  let { unmatched } = state 
 
-  return { ...state, unmatched, winner }
+  if (state.winner === -1) {
+    // The player falsely claimed Bingo. Play the game
+    // automatically, ignoring user input.
+    unmatched = addMatch(state.card, unmatched, drawn)
+  }
+  
+  if (state.drawn.indexOf(drawn) < 0) {
+    state.drawn.push(drawn)
+  }
+  return { ...state, unmatched } // , winner }
+}
+
+
+const setMatch = ( state, action ) => {
+  if (state.winner === -1) {
+    return state
+  }
+
+  const { row, column } = action.payload
+  const { unmatched } = state
+  unmatched[row][column] = false
+  // const winner = checkForBingo(unmatched)
+
+  return { ...state, unmatched } //, winner }
+}
+
+
+const callBingo = ( state, action ) => {
+  const winner = checkForBingo(state.unmatched) || -1
+  return { ...state, winner }
 }
 
 
@@ -119,7 +149,6 @@ const gameOver = ( state, action ) => {
   state.winner = action.payload
   return { ...state }
 }
-
 
 
 const reducer = ( state, action ) => {
@@ -135,6 +164,12 @@ const reducer = ( state, action ) => {
     case "DRAW":
       return cardDrawn(state, action)
 
+    case "SET_MATCH":
+      return setMatch(state, action)
+
+    case "CALL_BINGO":
+      return callBingo(state, action)
+      
     case "GAME_OVER":
       return gameOver(state, action)
 

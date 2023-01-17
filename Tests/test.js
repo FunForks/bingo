@@ -4,6 +4,7 @@ const { initialState, reducer } = gameplay
 
 const checkRow = () => {
   let state = {...initialState}
+  state.winner = -1
 
   const unmatched = [
     [ 1, 1, 1, 1, 1 ],
@@ -24,12 +25,17 @@ const checkRow = () => {
 
   const drawn = "d"
 
-  const action = {
+  let action = {
     type: "DRAW",
     payload: drawn
   }
+  state = reducer( state, action )
 
+  action = {
+    type: "CALL_BINGO"
+  }
   const result = reducer( state, action )
+
   // console.log("row winner", result.winner);
 
   expect(result.winner).toBe(true)
@@ -38,6 +44,7 @@ const checkRow = () => {
 
 const checkColumn = () => {
   let state = {...initialState}
+  state.winner = -1
 
   const unmatched = [
     [ 1, 1, 0, 1, 1 ],
@@ -58,12 +65,17 @@ const checkColumn = () => {
 
   const drawn = "d"
 
-  const action = {
+  let action = {
     type: "DRAW",
     payload: drawn
   }
+  state = reducer( state, action )
 
+  action = {
+    type: "CALL_BINGO"
+  }
   const result = reducer( state, action )
+
   // console.log("column winner", result.winner);
 
   expect(result.winner).toBe(true)
@@ -72,6 +84,7 @@ const checkColumn = () => {
 
 const checkDiagonal = () => {
   let state = {...initialState}
+  state.winner = -1
 
   const unmatched = [
     [ 0, 1, 1, 1, 1 ],
@@ -92,12 +105,17 @@ const checkDiagonal = () => {
 
   const drawn = "d"
 
-  const action = {
+    let action = {
     type: "DRAW",
     payload: drawn
   }
+  state = reducer( state, action )
 
+  action = {
+    type: "CALL_BINGO"
+  }
   const result = reducer( state, action )
+
   // console.log("diagonal winner", result.winner);
 
   expect(result.winner).toBe(true)
@@ -106,6 +124,7 @@ const checkDiagonal = () => {
 
 const checkOtherDiagonal = () => {
   let state = {...initialState}
+  state.winner = -1
 
   const unmatched = [
     [ 1, 1, 1, 1, 0 ],
@@ -126,12 +145,17 @@ const checkOtherDiagonal = () => {
 
   const drawn = "d"
 
-  const action = {
+    let action = {
     type: "DRAW",
     payload: drawn
   }
+  state = reducer( state, action )
 
+  action = {
+    type: "CALL_BINGO"
+  }
   const result = reducer( state, action )
+
   // console.log("other diagonal winner", result.winner);
 
   expect(result.winner).toBe(true)

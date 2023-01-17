@@ -7,7 +7,7 @@ const { shuffle } = tools
 
 const pollResponses = []
 
-const DRAW_DELAY = 100
+const DRAW_DELAY = 3000
 let interval = 0
 
 
@@ -64,6 +64,7 @@ function database(db) {
     // Shuffle all the birds, and choose the first 24..
     const shuffled = shuffle([...birds])
                     .slice(0,24)
+                    .sort() // random birds in alphabetical order
 
     // ... then add a zero in the middle
     shuffled.splice(12, 0, 0)

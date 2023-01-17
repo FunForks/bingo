@@ -7,10 +7,11 @@ export const Buttons = (props) => {
     // Functions to talk to backend
     startNewGame,
     joinGameInProgress,
-    claimBingo,
+    callBingo,
     // Flags for the current state of play
     playing,
     inProgress,
+    winner,     // 0 | 1 (Bingo found) | -1 (false Bingo claim)
     // String used as flag for enabling the button
     player
   } = props
@@ -31,8 +32,8 @@ export const Buttons = (props) => {
     } else if (playing) {   
       return (
         <button
-          onClick={claimBingo}
-          disabled={disabled}
+          onClick={callBingo}
+          disabled={disabled || winner < 0}
         >
           Bingo!
         </button>
