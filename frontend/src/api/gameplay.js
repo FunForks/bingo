@@ -60,6 +60,33 @@ const newGame = ( state, action ) => {
 }
 
 
+const joinGame = ( state, { payload } ) => {  
+  const player = state.player
+  const { card, drawn } = payload
+
+  // Match all items that have already been drawn
+  const unmatched = card.map( row => (
+    row.map( item => !!item )
+  ))
+  drawn.forEach( latest => {
+    addMatch(card, unmatched, latest)
+  })
+
+  const playing = true
+  const winner = -2 // disables Bingo! button: shows explanation
+
+  return {
+    ...initialState,
+    player,
+    card,
+    unmatched,
+    drawn,
+    playing,
+    winner
+  }
+}
+
+
 const addMatch = (card, unmatched, latest) => {
   let cellIndex
   const rowIndex  = card.findIndex( row => {
@@ -110,7 +137,7 @@ const cardDrawn = ( state, action ) => {
   state.latest = drawn
   let { unmatched } = state 
 
-  if (state.winner === -1) {
+  if (state.winner < 0) {
     // The player falsely claimed Bingo. Play the game
     // automatically, ignoring user input.
     unmatched = addMatch(state.card, unmatched, drawn)
@@ -119,19 +146,21 @@ const cardDrawn = ( state, action ) => {
   if (state.drawn.indexOf(drawn) < 0) {
     state.drawn.push(drawn)
   }
-  return { ...state, unmatched } // , winner }
+
+  const inProgress = true
+
+  return { ...state, unmatched, inProgress }
 }
 
 
 const setMatch = ( state, action ) => {
-  if (state.winner === -1) {
+  if (state.winner < 0) {
     return state
   }
 
   const { row, column } = action.payload
   const { unmatched } = state
   unmatched[row][column] = false
-  // const winner = checkForBingo(unmatched)
 
   return { ...state, unmatched } //, winner }
 }
@@ -152,14 +181,15 @@ const gameOver = ( state, action ) => {
 
 
 const reducer = ( state, action ) => {
-  console.log("action:", action);
-
   switch ( action.type) {
     case "SET_PLAYER_NAME":
       return setPlayerName(state, action)
 
     case "GAME_STARTED":
       return newGame(state, action)
+
+    case "JOIN_GAME":
+      return joinGame(state, action)
 
     case "DRAW":
       return cardDrawn(state, action)

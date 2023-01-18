@@ -13,19 +13,14 @@ The Bingo! button will always be active, and can be pressed even if no Bingo is 
 
 This replaces the current Bingo! button with Start New Game.
 
+A player who requests a card while a game is in progress receives an array of drawn items at the same time as the card data. Long polling also starts automatically, so that they are kept up to date as new items are drawn. However, the Bingo! button is blocked, so a player cannot claim to win a game that they did not play from the beginning
 
 TODO
 
-1. A player who requests a card while a game is in progress should receive an array of drawn items at the same time as the card data. Long polling should also start automatically, so that they are kept up to date as new items are drawn.
-
-  They should see a button Join Game In Progress. If they click on this:
-  * The Join Game button should be replaced by a Bingo! button
-  * All items that have already been drawn should be matched in their display
-  * The table should become interactive: now the player has to press items as they are called
-
-2. Highlight winning Bingo lines
-3. Detect multiple winning lines, if present
-4. Utter the winner's name
-5. Set an item to matched when pressed, even if that item has not been drawn. (Perhaps show it in a different colour?). When the player press Bingo!, remove the "match" from all mistaken items.
-6. Show a countdown progress bar before the first item is drawn.
-7. Show a button to press if textToSpeech audio is not permitted to play until the user interacts with the page
+1. Highlight winning Bingo lines
+2. Detect multiple winning lines, if present
+3. Set an item to matched when pressed, even if that item has not been drawn. (Perhaps show it in a different colour?). When the player press Bingo!, remove the "match" from all mistaken items.
+4. Show a countdown progress bar before the first item is drawn.
+5. textToSpeech audio is not permitted until the user interacts with the page. Add a button for the player to press so that sound is activated.
+6. Use images as prompts or as cues, so that the player must select the image that matches the name, or vice versa. When matched, both the image and the word will appear.
+7. Handle error if backend is not running.

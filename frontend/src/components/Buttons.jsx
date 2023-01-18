@@ -49,7 +49,7 @@ export const Buttons = (props) => {
             onClick={joinGameInProgress}
             disabled={disabled}
           >
-            Join the Game
+            Watch the Game
           </button>
         </>
       )

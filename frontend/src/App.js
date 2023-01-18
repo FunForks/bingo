@@ -50,30 +50,12 @@ const App = () => {
   }
 
 
-  const announceDraw = () => {
-    if (state.latest) {
-      say(state.latest)
-    }
-  }
-  useEffect(announceDraw, [state.latest])
-
-
-  const joinGameInProgress = async () => {
-
-  }
-
-
-  const setMatch = (row, column) => {
-    dispatch({
-      type: "SET_MATCH",
-      payload: { row, column }
-    })
-  }
-
-
-  const callBingo = () => {
-    dispatch({
-      type: "CALL_BINGO"
+  const joinGameInProgress = () => {
+    fetch(endPoints.join)
+    .then(response => response.json())
+    .then(json => dispatch(json))
+    .catch(error => {
+      console.log("error:", error)
     })
   }
 
@@ -98,13 +80,42 @@ const App = () => {
   useEffect(claimBingo, [state.winner])
 
 
+  const announceDraw = () => {
+    if (state.latest) {
+      say(state.latest)
+    }
+  }
+  useEffect(announceDraw, [state.latest])
+
+
+  
+  const setMatch = (row, column) => {
+    dispatch({
+      type: "SET_MATCH",
+      payload: { row, column }
+    })
+  }
+
+
+  const callBingo = () => {
+    dispatch({
+      type: "CALL_BINGO"
+    })
+  }
+
+
   const display = (() => {
     if (state.winner) {
-      if (state.winner < 0) {
+      if (state.winner === -2) {
+        return "This game has already started. You can play in the next game."
+
+      } else if (state.winner < 0) {
         return "Bingo called in error"
+
       } else {
-        return state.winner
+        return `The winner is ${state.winner}`
       }
+
     } else {
       return state.latest
     }

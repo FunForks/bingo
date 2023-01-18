@@ -56,6 +56,20 @@ function database(db) {
     res.send("OK") // so that the client is not left hanging
   });
 
+
+  /* GET a card and the array of items that have
+   * already been drawn
+   */
+  router.get('/join', async function(req, res, next) {
+    const card = getCard()
+    const { drawn } = db.data
+    const message = {
+      type: "JOIN_GAME",
+      payload: { card, drawn }
+    }
+    res.json(message)
+  });
+
   return router
 
 
