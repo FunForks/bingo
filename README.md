@@ -1,6 +1,6 @@
 # Bingo
 
-A multiplayer American Bingo game, where the backend constantly chooses a new Bingo item, and the frontend polls regularly to get the latest item.
+A multiplayer American Bingo game, where the frontend uses long polling to receive new data from the backend on a regular basis.
 
 This repo was forked from the barebones project at:
 https://github.com/FunForks/express-backend-react-frontend
