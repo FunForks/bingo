@@ -20,7 +20,7 @@ const randomName = (() => {
 })()
 
 
-const initialState = {
+export const initialState = {
   player: randomName,
   card: [],
   unmatched: [],
@@ -181,7 +181,7 @@ const gameOver = ( state, action ) => {
 }
 
 
-const reducer = ( state, action ) => {
+export const reducer = ( state, action ) => {
   switch ( action.type) {
     case "SET_PLAYER_NAME":
       return setPlayerName(state, action)
@@ -210,7 +210,7 @@ const reducer = ( state, action ) => {
 }
 
 
-module.exports = {
-  initialState,
-  reducer
-}
+// module.exports = {
+//   initialState,
+//   reducer
+// }

@@ -10,8 +10,10 @@ import { say } from './api/textToSpeech.js'
 
 
 
-const PORT = process.env.REACT_APP_BACKEND_PORT
-const backend = window.location.origin.replace(/:\d+$/,`:${PORT}`)
+// const PORT = process.env.REACT_APP_BACKEND_PORT
+// const backend = window.location.origin.replace(/:\d+$/,`:${PORT}`)
+const backend = process.env.REACT_APP_BACKEND
+
 const endPoints = {
   poll: `${backend}/poll`,
   start: `${backend}/start`,

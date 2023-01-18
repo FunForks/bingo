@@ -10,7 +10,8 @@
     "start-site": "npm run start-backend & npm run start-frontend",
     "kill-ports": "npx kill-port 3000 || 1 && npx kill-port 3001 || 1",
     "start": "npm run show-url && npm run kill-ports && npm run start-site",
-    "test": "jest"
+    "test": "jest",
+    "build": "cd frontend && npm run build"
   },
   "devDependencies": {
     "jest": "^29.3.1",
