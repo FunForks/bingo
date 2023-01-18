@@ -30,10 +30,19 @@ td {
   width: var(--size);
   overflow: hidden;
   text-align: center;
-  border: 1px solid#fff;
+  border: 1px solid #000;
   box-sizing: border-box;
 }
 
-td.match {
-  background-color: #030;
+
+td span {
+  display: inline-block;
+  width: 100%;
+  padding: 2.5em 0;
+  background-color: #0008;
+  visibility: hidden;
+}
+
+td.match span {
+  visibility: visible;
 }

@@ -1,4 +1,4 @@
-import { usesState, useEffect, useReducer } from 'react'
+import { useEffect, useReducer } from 'react'
 import { initialState, reducer } from './api/gameplay'
 
 import { PlayerName } from './components/PlayerName'
@@ -13,11 +13,12 @@ import { say } from './api/textToSpeech.js'
 const PORT = process.env.REACT_APP_BACKEND_PORT
 const backend = window.location.origin.replace(/:\d+$/,`:${PORT}`)
 const endPoints = {
-  poll: `${backend}/data/poll`,
-  start: `${backend}/data/start`,
-  join: `${backend}/data/join`,   // not used yet
-  bingo: `${backend}/data/bingo`
+  poll: `${backend}/poll`,
+  start: `${backend}/start`,
+  join: `${backend}/join`,   // not used yet
+  bingo: `${backend}/bingo`
 }
+
 
 const App = () => {
   const [ state, dispatch ] = useReducer(reducer, initialState)
@@ -77,7 +78,8 @@ const App = () => {
       say(`The winner is: ${winner}`)
     }
   }
-  useEffect(claimBingo, [state.winner])
+  // eslint-disable-next-line
+  useEffect(() => claimBingo(), [state.winner])
 
 
   const announceDraw = () => {

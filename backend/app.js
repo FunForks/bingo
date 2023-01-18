@@ -9,14 +9,12 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var dataRouter = require('./routes/data');
 
 var app = express();
 
 // Connecting to the LowDB database is asynchronous...
-(async() => await require('./data/data.js'))() // Promise
+(async() => await require('./data/lowdb.js'))() // Promise
 .then(setUpApp)
 
 // ... so we need to wait until the promise resolves before
@@ -33,9 +31,7 @@ function setUpApp(db){
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname, 'public')));
 
-  app.use('/', indexRouter);
-  app.use('/users', usersRouter);
-  app.use('/data', dataRouter(db));
+  app.use('/', dataRouter(db));
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {

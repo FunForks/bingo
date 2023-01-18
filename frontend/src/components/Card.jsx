@@ -16,13 +16,22 @@ export const Card = ({ card, drawn, unmatched, setMatch }) => {
                       ? ""
                       : "match"
 
+      const { name, url } = item
+      const style = url ? {
+                            backgroundImage: `url(${url})`,
+                            backgroundPosition: "center",
+                            backgroundSize: "cover"
+                          }
+                        : {}
+
       return (
         <td
-          key={item}
+          key={name}
           className={className}
-          onClick={() => checkForMatch( item, row, column )}
+          onClick={() => checkForMatch( name, row, column )}
+          style={style}
         >
-          {item || "FREE"}
+          <span>{name || "FREE"}</span>
         </td>
       )
     })

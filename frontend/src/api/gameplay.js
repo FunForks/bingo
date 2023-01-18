@@ -26,6 +26,7 @@ const initialState = {
   unmatched: [],
   drawn: [],
   latest: "",
+  url: "",
   playing: false,
   inProgress: false,
   winner: ""
@@ -42,7 +43,7 @@ const newGame = ( state, action ) => {
   const player = state.player
   const card = action.payload
   const unmatched = card.map( row => (
-    row.map( item => !!item )
+    row.map( item => !!item.name ) // 0 is matched
   ))
   const drawn = []
   const playing = true

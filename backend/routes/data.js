@@ -14,6 +14,9 @@ let interval = 0
 
 function database(db) {
 
+  const birdMap = db.data.birds
+  const birdNames = Object.keys(db.data.birds)
+
   /* GET extract from database listing. */
   const data = JSON.stringify(db.data).slice(0, 100)
   router.get('/', function(req, res, next) {
@@ -29,7 +32,7 @@ function database(db) {
   router.get('/start', async function(req, res, next) {
 
     if (!interval) {
-      db.data.pool = shuffle([...db.data.birds])
+      db.data.pool = shuffle([...birdNames])
       db.data.drawn = []
       await db.write()
 
@@ -43,7 +46,7 @@ function database(db) {
 
 
   /* GET the game to start for all connected players */
-  router.post('/bingo', async function(req, res, next) {
+  router.post('/bingo', function(req, res, next) {
     const { player } = req.body
 
     if (interval) {
@@ -73,21 +76,30 @@ function database(db) {
   return router
 
 
+
   function getCard() {
-    const { birds } = db.data
-    // Shuffle all the birds, and choose the first 24..
-    const shuffled = shuffle([...birds])
+    // Shuffle all the bird names, and choose the first 24..
+    const shuffled = shuffle([...birdNames])
                     .slice(0,24)
                     .sort() // random birds in alphabetical order
 
     // ... then add a zero in the middle
     shuffled.splice(12, 0, 0)
-    const card = [
-      shuffled.splice(0, 5),
-      shuffled.splice(0, 5),
-      shuffled.splice(0, 5), // zero is in the middle
-      shuffled.splice(0, 5),
-      shuffled.splice(0, 5)
+
+    // Add url for each bird name
+    const mapping =  name => {
+      const url = name
+                ? birdMap[name]
+                : ""
+      return { name, url }
+    }
+
+    let card = [
+      shuffled.splice(0, 5).map(mapping),
+      shuffled.splice(0, 5).map(mapping),
+      shuffled.splice(0, 5).map(mapping), // zero is in the middle
+      shuffled.splice(0, 5).map(mapping),
+      shuffled.splice(0, 5).map(mapping)
     ]
 
     return card
@@ -112,6 +124,7 @@ function database(db) {
 
     update("DRAW", drawn)
   }
+
 
 
   function update(type, payload) {

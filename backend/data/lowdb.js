@@ -1,4 +1,5 @@
 /** LOWDB */
+
 /** NOTE: The code for lowdb v5.0.5 as copied from...
  *  https://github.com/typicode/lowdb
  *  ... is shown in th comment below.
@@ -68,7 +69,7 @@ const db = (async() => {
   
   await db.read()
 
-  db.data ||= { posts: [] }
+  // db.data ||= { posts: [] }
 
   return db
 })()
