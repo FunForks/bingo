@@ -91,7 +91,7 @@ const joinGame = ( state, { payload } ) => {
 const addMatch = (card, unmatched, latest) => {
   let cellIndex
   const rowIndex  = card.findIndex( row => {
-    cellIndex = row.findIndex( item => item === latest)
+    cellIndex = row.findIndex( item => item.name === latest)
     return cellIndex >= 0
   })
 
