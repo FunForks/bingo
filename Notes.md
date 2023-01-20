@@ -27,17 +27,23 @@ A player who requests a card while a game is in progress receives an array of dr
 
 TODO
 
-1. Highlight winning Bingo lines
-2. Detect multiple winning lines, if present
-3. Set an item to "matched" when pressed, _even if that item has not been drawn_. (Perhaps show it in a different colour?). When the player presses Bingo!, remove the "match" from all mistaken items.
-4. Give immediate feedback that the game has begun. For example: show a countdown progress bar before the first item is drawn.
-5. For courtesy reasons, textToSpeech audio is not permitted until the user interacts with the page. Add a button for the player to press so that sound is activated.
-7. Send the `drawn` array along with the winner name, and highlight any items that the player has missed
-8.  Utter "You won" if the player has the winning card
-9.  Add a selector for other themes
-10. Add input for a group name; a group can play separately from others
-11. Allow a custom group to set the delay between update calls
+1.  Highlight winning Bingo lines
+2.  Detect multiple winning lines, if present
+3.  Set an item to "matched" when pressed, _even if that item has not been drawn_. (Perhaps show it in a different colour?). When the player presses Bingo!, remove the "match" from all mistaken items.
+4.  Give immediate feedback that the game has begun. For example: show a countdown progress bar before the first item is drawn.
+5.  For courtesy reasons, textToSpeech audio is not permitted until the user interacts with the page. Add a button for the player to press so that sound is activated.
+6.  Send the `drawn` array along with the winner name, and highlight any items that the player has missed
+7.  Utter "You won" if the player has the winning card
+8.  Add other themes, and a selector for them
+9.  Add input for a group name; a group can play separately from others
+10. Allow a custom group to set the delay between update calls
+11. Add Mute button
+
+### Done
+* Show splash screen to give time to preload all images
+* Handle case where the backend does not immediately respond. (On render.com it can take several seconds to start up if no-one is playing the game.)
 
 
-6. Show splash screen to give time to preload all images
-12. Handle error if the backend does not respond. (On render.com it can take several seconds to start up if no-one is playing the game.)
+### Rename rspb files
+bash% for f in *.jpg; do mv "$f" "${f/_1200x675/})"; done 
+/Users/james/Documents/DCI/Students/Iumahboobi/BingoFrontBack/README.md
