@@ -32,4 +32,12 @@ TODO
 3. Set an item to "matched" when pressed, _even if that item has not been drawn_. (Perhaps show it in a different colour?). When the player presses Bingo!, remove the "match" from all mistaken items.
 4. Give immediate feedback that the game has begun. For example: show a countdown progress bar before the first item is drawn.
 5. For courtesy reasons, textToSpeech audio is not permitted until the user interacts with the page. Add a button for the player to press so that sound is activated.
-6. Handle error if the backend is not running.
+7. Send the `drawn` array along with the winner name, and highlight any items that the player has missed
+8.  Utter "You won" if the player has the winning card
+9.  Add a selector for other themes
+10. Add input for a group name; a group can play separately from others
+11. Allow a custom group to set the delay between update calls
+
+
+6. Show splash screen to give time to preload all images
+12. Handle error if the backend does not respond. (On render.com it can take several seconds to start up if no-one is playing the game.)

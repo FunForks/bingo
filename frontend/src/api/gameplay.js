@@ -67,7 +67,7 @@ const joinGame = ( state, { payload } ) => {
 
   // Match all items that have already been drawn
   const unmatched = card.map( row => (
-    row.map( item => !!item )
+    row.map( item => !!item.name )
   ))
   drawn.forEach( latest => {
     addMatch(card, unmatched, latest)

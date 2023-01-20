@@ -23,10 +23,24 @@ function database(db) {
     res.send(`Extract from database: ${data}`);
   });
 
+
+  /* GET an array of all the images used by the game
+   * plus a Boolean flag indicating if setInterval is active now
+   */
+  router.get('/poke', function(req, res, next) {
+    const status = {
+      images: Object.values(birdMap),
+      inProgress: !!interval
+    }
+    res.json(status)
+  });
+
+
   /* Store a POST request for an async response from draw() */
   router.post('/poll', function(req, res, next) {
     pollResponses.push(res)
   });
+
 
   /* GET the game to start for all connected players */
   router.get('/start', async function(req, res, next) {
@@ -39,13 +53,16 @@ function database(db) {
       update("GAME_STARTED")
 
       interval = setInterval(draw, DRAW_DELAY)
-    }
 
-    res.send("OK") // so that the client is not left hanging
+      res.send("OK") // so that the client is not left hanging
+
+    } else {
+      joinGame(res)
+    }
   });
 
 
-  /* GET the game to start for all connected players */
+  /* POST the name of the winning player */
   router.post('/bingo', function(req, res, next) {
     const { player } = req.body
 
@@ -60,17 +77,10 @@ function database(db) {
   });
 
 
-  /* GET a card and the array of items that have
-   * already been drawn
+  /* GET a card and an array of items that have already been drawn
    */
   router.get('/join', async function(req, res, next) {
-    const card = getCard()
-    const { drawn } = db.data
-    const message = {
-      type: "JOIN_GAME",
-      payload: { card, drawn }
-    }
-    res.json(message)
+    joinGame(res)
   });
 
   return router
@@ -137,6 +147,18 @@ function database(db) {
 
       response.send({ type, payload })
     }
+  }
+
+
+
+  function joinGame(res) {
+    const card = getCard()
+    const { drawn } = db.data
+    const message = {
+      type: "JOIN_GAME",
+      payload: { card, drawn }
+    }
+    res.json(message)
   }
 }
 
